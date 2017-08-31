@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../../../favicon.ico">
+
+  <title>Harvey Client Registration Form</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <style>
+  body {
+    padding-top: 5rem;
+  }
+  .starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  .form-row{
+    padding-top: 15px;
+  }
+  .form-group {
+    padding-top: 20px;
+  }
+
+  #map {
+    height: 300px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  html,body{margin: 0; padding: 0}
+  </style>
+
+  <link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
+
+
+</head>
+
+<body>
+
+  <header>
+    <div class="col align-self-center starter-template">
+      <img src="http://www.redcross.org/images/redcross-logo.png" />
+      <h1>Hurricane Harvey Red Cross Registation</h1>
+    </div>
+  </header>
+
+
+
+  <div class="container">
+
+    <p> To qualify for services with the American Red Cross please. Additional text here.</p>
+
+    <form>
+      <label for="exampleInputEmail1">Name</label>
+      <div class="form-row">
+        <div class="col">
+          <input type="text" class="form-control" placeholder="First name">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Middle name">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col">
+          <label for="exampleInputphone">Phone Number</label>
+          <input type="email" class="form-control" id="exampleInputPhone1" aria-describedby="phoneHelp" placeholder="(123) 500-4567">
+
+        </div>
+        <div class="col">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col">
+          <label for="exampleSelect2">Best Contact Method</label>
+          <select class="custom-select d-block my-3" required>
+            <option>Email</option>
+            <option>Phone</option>
+        </select>
+        </div>
+        <div class="col">
+          <label for="exampleSelect2">Current Living Situation</label>
+          <select class="custom-select d-block my-3" required>
+            <option>Own Home</option>
+            <option>Friends/Family</option>
+            <option>Red Cross Shelter</option>
+            <option>FEMA TSA Housing</option>
+            <option>Other</option>
+        </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleTextarea">How many people are in your household?</label>
+        <input type="number" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="exampleSelect1">Address</label>
+        <div class="form-row">
+          <div class="col-5">
+            <input type="text" class="form-control" placeholder="Street Address, City, State, Zip">
+          </div>
+        </div>
+        <div id='map' class="col-md-12"></div>
+        <small id="emailHelp" class="form-text text-muted">Your home falls within the current service area.</small>
+      </div>
+
+      <p><a href="">Legal Disclaimer</a></p>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+  </div><!-- /.container -->
+
+  <footer style="height:20px">
+  </footer>
+
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/core.js" integrity="sha256-BSsbXsDErniq/HpuhULFor8x1CpA2sPPwQLlEoEri+0=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://mapzen.com/js/mapzen.min.js"></script>
+
+  <script>
+  L.Mapzen.apiKey = "mapzen-C3iQrQn";
+  // Add a map to the #map div
+  // Center on the Pigott building at Seattle University
+  var map = L.Mapzen.map("map", {
+    center: [29.7630556,-95.3630556],
+    zoom: 10,
+  });
+
+  // Disable autocomplete and set parameters for the search query
+  var geocoderOptions = {
+    autocomplete: false,
+    params: {
+      sources: 'osm',
+      'boundary.country': 'USA',
+      layers: 'address,venue'
+    }
+  };
+
+  // Add the geocoder to the map, set parameters for geocoder options
+  var geocoder = L.Mapzen.geocoder(geocoderOptions);
+  geocoder.addTo(map);
+  </script>
+</body>
+</html>
