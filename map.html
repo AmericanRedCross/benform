@@ -1,119 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>My Web Map</title>
-    <meta charset="utf-8">
-    <!-- Bootstrap core CSS -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"> -->
-    <!-- Mapzen CSS -->
-    <link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
-    <style>
-      #map {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-      }
-      html,body{margin: 0; padding: 0;}
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
 
-    <script src="https://code.jquery.com/jquery-3.2.0.min.js" crossorigin="anonymous"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
-    <script src="https://mapzen.com/js/mapzen.min.js"></script>
-    <script>
-      L.Mapzen.apiKey = 'mapzen-C3iQrQn';
-      var map = L.Mapzen.map('map', {
-        tangramOptions: {
-          scene: L.Mapzen.BasemapStyles.Refill
+<head>
+  <title>My Web Map</title>
+  <meta charset="utf-8">
+  <!-- Bootstrap core CSS -->
+  <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"> -->
+  <!-- Mapzen CSS -->
+  <link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
+  <style>
+    #map {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <script src="https://code.jquery.com/jquery-3.2.0.min.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
+  <script src="https://mapzen.com/js/mapzen.min.js"></script>
+  <script>
+    L.Mapzen.apiKey = 'mapzen-C3iQrQn';
+    var map = L.Mapzen.map('map', {
+      tangramOptions: {
+        scene: L.Mapzen.BasemapStyles.Refill
+      }
+    });
+    map.setView([29.7630556, -95.3630556], 8);
+
+    var cvsStyle = {
+      radius: 6,
+      fillColor: "#cc0000",
+      color: "#000",
+      weight: 1,
+      opacity: 0.8,
+      fillOpacity: 0.8
+    };
+
+    var walmartStyle = {
+      radius: 6,
+      fillColor: "#00498d",
+      color: "#000",
+      weight: 1,
+      opacity: 0.8,
+      fillOpacity: 0.8
+    };
+
+    var aceStyle = {
+      radius: 6,
+      fillColor: "darkred",
+      color: "#000",
+      weight: 1,
+      opacity: 0.8,
+      fillOpacity: 0.8
+    };
+
+    var mcStyle = {
+      radius: 6,
+      fillColor: "#ff5f00",
+      color: "#000",
+      weight: 1,
+      opacity: 0.8,
+      fillOpacity: 0.8
+    };
+
+    var autoStyle = {
+      weight: 2,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.7,
+      fillColor: '#FFA000'
+    };
+
+    var transitStyle = {
+      weight: 2,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.7,
+      fillColor: '#FFA0FF'
+    };
+
+    // var cvsLayer = new L.GeoJSON.AJAX('data/cvs.geojson', {
+    //   style: cvsStyle
+    // });
+    // cvsLayer.addTo(map);
+
+    $.getJSON("data/cvs.geojson", function(data) {
+      var cvsPoints = L.geoJson(data, {
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, cvsStyle);
         }
       });
-      map.setView([29.7630556, -95.3630556], 8);
+      cvsPoints.addTo(map);
+      controlLayers.addOverlay(cvsPoints, "CVS");
+    });
 
-      var cvsStyle = {
-        radius: 6,
-        fillColor: "#cc0000",
-        color: "#000",
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8
-      };
-
-      var walmartStyle = {
-        radius: 6,
-        fillColor: "#00498d",
-        color: "#000",
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8
-      };
-
-      var aceStyle = {
-        radius: 6,
-        fillColor: "darkred",
-        color: "#000",
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8
-      };
-
-      var mcStyle = {
-        radius: 6,
-        fillColor: "#ff5f00",
-        color: "#000",
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8
-      };
-
-      // var cvsLayer = new L.GeoJSON.AJAX('data/cvs.geojson', {
-      //   style: cvsStyle
-      // });
-      // cvsLayer.addTo(map);
-
-      $.getJSON("data/cvs.geojson", function(data){
-        var cvsPoints = L.geoJson(data, {
-          pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, cvsStyle);
-          }
-        });
-        cvsPoints.addTo(map);
-        controlLayers.addOverlay(cvsPoints, "CVS");
+    $.getJSON("data/walmart.geojson", function(data) {
+      var walmartPoints = L.geoJson(data, {
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, walmartStyle);
+        }
       });
+      walmartPoints.addTo(map);
+      controlLayers.addOverlay(walmartPoints, "Walmart");
+    });
 
-      $.getJSON("data/walmart.geojson", function(data){
-        var walmartPoints = L.geoJson(data, {
-          pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, walmartStyle);
-          }
-        });
-        walmartPoints.addTo(map);
-        controlLayers.addOverlay(walmartPoints, "Walmart");
+    $.getJSON("data/ace.geojson", function(data) {
+      var acePoints = L.geoJson(data, {
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, aceStyle);
+        }
       });
+      acePoints.addTo(map);
+      controlLayers.addOverlay(acePoints, "Ace Hardware");
+    });
 
-      $.getJSON("data/ace.geojson", function(data){
-        var acePoints = L.geoJson(data, {
-          pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, aceStyle);
-          }
-        });
-        acePoints.addTo(map);
-        controlLayers.addOverlay(acePoints, "Ace Hardware");
+    $.getJSON("data/mc.geojson", function(data) {
+      var mcPoints = L.geoJson(data, {
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, mcStyle);
+        }
       });
+      mcPoints.addTo(map);
+      controlLayers.addOverlay(mcPoints, "MasterCard");
+    });
 
-      $.getJSON("data/mc.geojson", function(data){
-        var mcPoints = L.geoJson(data, {
-          pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, mcStyle);
-          }
+    $.getJSON("data/auto.geojson", function(data) {
+      var autoLayer = L.geoJson(data, {
+        style: autoStyle
         });
-        mcPoints.addTo(map);
-        controlLayers.addOverlay(mcPoints, "MasterCard");
-      });
+      autoLayer.setZIndex(1);
+      autoLayer.addTo(map);
+      controlLayers.addOverlay(autoLayer, "Auto 60 min Travel Distance");
+    });
 
-      var controlLayers = L.control.layers().addTo(map);
+    $.getJSON("data/transit.geojson", function(data) {
+      var transitLayer = L.geoJson(data, {
+        style: transitStyle
+        });
+      transitLayer.setZIndex(1);
+      transitLayer.addTo(map);
+      controlLayers.addOverlay(transitLayer, "Transit 60 min Travel Distance");
+    });
 
-    </script>
-  </body>
+    var controlLayers = L.control.layers().addTo(map);
+
+    //
+    // Mapzen Isochrone
+    //
+
+// We are going to use this object to save hash data
+// var hashData = {};
+//
+// var demo_sources = [{
+//   title: 'Montreal',
+//   index: 0,
+//   costing: 'auto',
+//   latlng: {lat: 45.516559, lng:  -73.578334}
+// },
+// {
+//   title: 'St. Petersburg',
+//   index: 1,
+//   costing: 'auto',
+//   latlng: {lat: 59.928588, lng: 30.321905}
+// },
+// {
+//   title: 'Auckland',
+//   index: 2,
+//   costing: 'auto',
+//   latlng: {lat: -36.8520, lng: 174.7638}
+// }];
+//
+//
+// var info = L.control({position: 'bottomleft'});
+// info.onAdd = function (map) {
+//   this._div = L.DomUtil.create('div', 'isochrone-legend-container');
+//   L.DomEvent.disableClickPropagation(this._div);
+//   this.update();
+//   return this._div;
+// };
+// info.update = function () {
+//   this._div.innerHTML =
+//     '<div class="row headroom-med">' +
+//       '<div class="col-xs-12 travel-time-label-wrapper">' +
+//         '<div class="form-group-header">Travel Time</div>' +
+//           '<div class="col-xs-3 time-legend" style="background-color:#50bf40;">15 mins</div>' +
+//           '<div class="col-xs-3 time-legend" style="background-color:#9fbf40;">30 mins</div>' +
+//           '<div class="col-xs-3 time-legend" style="background-color:#bf8f40;">45 mins</div>' +
+//           '<div class="col-xs-3 time-legend" style="background-color:#bf4040;">60 mins</div>' +
+//         '</div>'+
+//       '</div>' +
+//     '</div>';
+// };
+//
+// var loadingBar = L.control({position: 'bottomleft'});
+//
+// loadingBar.onAdd = function(map) {
+//   var div = L.DomUtil.create('div', 'loading-bar-container');
+//   this.loadingBarWrapper =  L.DomUtil.create('div', 'loading-bar-wrapper');
+//   var loadingBar = L.DomUtil.create('div', 'loading-spinner-02 loading-bar');
+//   var loadingTextSpan = L.DomUtil.create('p', 'loading-text');
+//   var loadingTextNode = document.createTextNode('Loading Isochrone...');
+//   loadingTextSpan.appendChild(loadingTextNode);
+//   this.loadingBarWrapper.appendChild(loadingBar);
+//   this.loadingBarWrapper.appendChild(loadingTextSpan);
+//   return div;
+// }
+// loadingBar.loading = function() {
+//   if (!this._container.contains(this.loadingBarWrapper)) this._container.appendChild(this.loadingBarWrapper);
+// }
+// loadingBar.loaded = function () {
+//   if (this._container.contains(this.loadingBarWrapper)) this._container.removeChild(this.loadingBarWrapper);
+// }
+//
+// info.addTo(map);
+// loadingBar.addTo(map);
+//
+// function buildURL(location) {
+//   var mode = hashData.costing;
+//
+//   lat = location.lat.toFixed(5);
+//   lng = location.lng.toFixed(5);
+//   var url = 'https://matrix.mapzen.com/isochrone?json=';
+//   var json = {
+//     locations: [{"lat":lat, "lon":lng}],
+//     costing: mode,
+//     contours: [{"time":15},{"time":30},{"time":45},{"time":60}],
+//     polygons: true,
+//     denoise: 0.5,
+//     generalize: 150
+//   };
+//   url += escape(JSON.stringify(json));
+//   url+= '&api_key='+ L.Mapzen.apiKey;
+//   return url;
+// }
+//
+// function setMarkerLocation(location){
+//   hashData.latlng = location;
+//   var checkStatus = function(response) {
+//     if (response.status >= 200 && response.status < 300) {
+//       return response
+//     } else {
+//       var error = new Error(response.statusText)
+//       error.response = response;
+//       throw error
+//     }
+//   }
+//
+//   var parseJSON = function(response) {
+//     return response.json()
+//   }
+//
+//   loadingBar.loading();
+//
+//   // fetch is being polyfilled by styleguide
+//   fetch(buildURL(location))
+//     .then(checkStatus)
+//     .then(parseJSON)
+//     .then(function(result) {
+//       scene.setDataSource('isochrone_live', { type: 'GeoJSON', data: result });
+//       loadingBar.loaded();
+//       fireHashToParent(hashData);
+//   })
+// }
+//
+// function onRadioClick(e) {
+//   hashData.costing = document.querySelector('input[name = "modes"]:checked').value;
+//   setMarkerLocation(hashData.latlng);
+//   e.stopPropagation();
+// }
+//
+// var MarkerManager = {
+//   create: function(latlng) {
+//     this.marker = new L.Marker(latlng, {
+//       draggable: true,
+//       icon: L.icon({
+//         iconUrl: 'images/marker.png',
+//         iconSize: [60,80],
+//         iconAnchor: [0, 80]
+//       })
+//     });
+//     this.marker.on('dragend', function(event){
+//       setMarkerLocation(event.target._latlng);
+//     });
+//     return this.marker;
+//   },
+//   get: function () {
+//     return this.marker
+//   },
+//   move: function(latlng) {
+//     this.marker.setLatLng(latlng);
+//   }
+// }
+//
+//
+// map.on('click', function(e){
+//   MarkerManager.move(e.latlng);
+//   setMarkerLocation(e.latlng);
+// });
+//
+// map.on('tangramloaded', function(e) {
+//   var tangramLayer = e.tangramLayer;
+//   scene = tangramLayer.scene;
+//   setupCommunicationWithParent();
+// });
+//
+//
+// var Formatter = {
+//   parseHashToObj: function (rawHash) {
+//     var dObj = {};
+//
+//     if (this.isEmpty(rawHash)) {
+//       return null;
+//     } else {
+//       var hashVal = rawHash.replace('#', '');
+//       var valArrs = hashVal.split('&');
+//       for (var val in valArrs) {
+//         var keyAndValue = valArrs[val].split('=');
+//         if(keyAndValue[0] == 'latlng') dObj[keyAndValue[0]] = JSON.parse(decodeURIComponent(keyAndValue[1]));
+//         else dObj[keyAndValue[0]] = decodeURIComponent(keyAndValue[1]);
+//       }
+//       return dObj;
+//     }
+//   },
+//   isEmpty: function (str) {
+//     if (str.length === 0 || !str) return true;
+//     else return false;
+//   },
+//   formatToHash: function (obj) {
+//     var str = [];
+//     for (var p in obj) {
+//       // Nulls or undefined is just empty string
+//       if (obj[p] === null || typeof obj[p] === 'undefined') {
+//         obj[p] = '';
+//       }
+//       if ( typeof obj[p] == 'object') {
+//         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(JSON.stringify(obj[p])));
+//       } else if (obj.hasOwnProperty(p)) {
+//         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+//       }
+//     }
+//     return str.join('&');
+//   }
+// };
+//
+// function fireHashToParent (data) {
+//   if (window.self !== window.parent) window.parent.postMessage(data, '*');
+//   else window.location.hash = Formatter.formatToHash(hashData);
+// }
+//
+//
+// // var demoSwitcher = new DemoSwitcher({
+// //   sources: demo_sources,
+// //   onClick: function (source) {
+// //     source.costing = hashData.costing;
+// //     hashData = source;
+// //     map.setView(hashData.latlng);
+// //     MarkerManager.move(hashData.latlng);
+// //     setMarkerLocation(hashData.latlng);
+// //     fireHashToParent(hashData);
+// //   }
+// // });
+//
+//
+// function setupCommunicationWithParent() {
+//   var emtpyAndFirst = false;
+//   // If this is iframed
+//   if (window.self != window.parent) {
+//     window.parent.postMessage("loaded", "*");
+//     // iframed, but there is no hash data from parent
+//     // We want to load the static data for speed
+//     if(Formatter.isEmpty(window.parent.location.hash)) {
+//       hashData = demo_sources[0];
+//       emtpyAndFirst = true;
+//     } else {
+//       hashData = Formatter.parseHashToObj(window.parent.location.hash);
+//     }
+//     // add the event to window to listen from parent window hash change.
+//     window.addEventListener("message", function(e) {
+//       hashData = e.data;
+//       MarkerManager.move(hashData.latlng);
+//       setMarkerLocation(hashData.latlng);
+//       // Waiting for isochrone response and move mapview is quite slow
+//       // Giving impression that map is not responsive
+//       map.setView(hashData.latlng, getZoom());
+//     }, false);
+//   // If this is not iframed
+//   } else {
+//     if(Formatter.isEmpty(window.location.hash)) {
+//       hashData = demo_sources[0];
+//     } else {
+//       hashData = Formatter.parseHashToObj(window.location.hash);
+//     }
+//   }
+//
+//   if (!emtpyAndFirst) {
+//     MarkerManager.create(hashData.latlng).addTo(map);
+//     map.setView(hashData.latlng, getZoom());
+//     setMarkerLocation(hashData.latlng);
+//     // Highlight the active tab
+//     // demoSwitcher.highlightActiveTab(hashData.index);
+//     document.getElementById(hashData.costing).checked = true;
+//   } else {
+//     MarkerManager.create(hashData.latlng).addTo(map);
+//     document.getElementById(hashData.costing).checked = true;
+//   }
+// }
+
+  </script>
+</body>
+
 </html>
