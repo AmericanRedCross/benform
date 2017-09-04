@@ -55,26 +55,25 @@
 
   <div class="container">
 
-    <p>This for is only for illustrive and training purposes. No </p>
+    <p>This for is only for illustrative and training purposes.</p>
 
     <form>
       <label for="exampleInputEmail1">Name</label>
       <div class="form-row">
         <div class="col">
-          <input type="text" class="form-control" placeholder="First name">
+          <input type="text" class="form-control" placeholder="First name" required>
         </div>
         <div class="col">
-          <input type="text" class="form-control" placeholder="Middle name">
+          <input type="text" class="form-control" placeholder="Middle name" >
         </div>
         <div class="col">
-          <input type="text" class="form-control" placeholder="Last name">
+          <input type="text" class="form-control" placeholder="Last name" required>
         </div>
       </div>
       <div class="form-row">
         <div class="col">
           <label for="exampleInputphone">Phone Number</label>
-          <input type="email" class="form-control" id="exampleInputPhone1" aria-describedby="phoneHelp" placeholder="(123) 500-4567">
-
+          <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" class="form-control" id="exampleInputPhone1" aria-describedby="phoneHelp" placeholder="(123) 500-4567">
         </div>
         <div class="col">
           <label for="exampleInputEmail1">Email address</label>
@@ -102,7 +101,7 @@
       </div>
       <div class="form-group">
         <label for="exampleTextarea">How many people normally live in your household?</label>
-        <input type="number" class="form-control">
+        <input type="number" class="form-control" required>
       </div>
       <div class="form-group">
         <label for="exampleSelect1">Address</label>
@@ -116,7 +115,7 @@
       </div>
 
       <p><a href="">Legal Disclaimer</a></p>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-danger">Submit</button>
     </form>
 
   </div><!-- /.container -->

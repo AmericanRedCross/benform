@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Web Map</title>
+    <meta charset="utf-8">
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- Mapzen CSS -->
+    <link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
+    <style>
+      #map {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+      }
+      html,body{margin: 0; padding: 0;}
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.min.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script> -->
+    <script src="https://mapzen.com/js/mapzen.min.js"></script>
+    <script>
+      L.Mapzen.apiKey = 'mapzen-C3iQrQn';
+      var map = L.Mapzen.map('map', {
+        tangramOptions: {
+          scene: L.Mapzen.BasemapStyles.Refill
+        }
+      });
+      map.setView([29.7630556, -95.3630556], 8);
+
+      var cvsStyle = {
+        radius: 6,
+        fillColor: "#cc0000",
+        color: "#000",
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8
+      };
+
+      var walmartStyle = {
+        radius: 6,
+        fillColor: "#00498d",
+        color: "#000",
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8
+      };
+
+      var aceStyle = {
+        radius: 6,
+        fillColor: "darkred",
+        color: "#000",
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8
+      };
+
+      var mcStyle = {
+        radius: 6,
+        fillColor: "#ff5f00",
+        color: "#000",
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8
+      };
+
+      // var cvsLayer = new L.GeoJSON.AJAX('data/cvs.geojson', {
+      //   style: cvsStyle
+      // });
+      // cvsLayer.addTo(map);
+
+      $.getJSON("data/cvs.geojson", function(data){
+        var cvsPoints = L.geoJson(data, {
+          pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, cvsStyle);
+          }
+        });
+        cvsPoints.addTo(map);
+        controlLayers.addOverlay(cvsPoints, "CVS");
+      });
+
+      $.getJSON("data/walmart.geojson", function(data){
+        var walmartPoints = L.geoJson(data, {
+          pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, walmartStyle);
+          }
+        });
+        walmartPoints.addTo(map);
+        controlLayers.addOverlay(walmartPoints, "Walmart");
+      });
+
+      $.getJSON("data/ace.geojson", function(data){
+        var acePoints = L.geoJson(data, {
+          pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, aceStyle);
+          }
+        });
+        acePoints.addTo(map);
+        controlLayers.addOverlay(acePoints, "Ace Hardware");
+      });
+
+      $.getJSON("data/mc.geojson", function(data){
+        var mcPoints = L.geoJson(data, {
+          pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, mcStyle);
+          }
+        });
+        mcPoints.addTo(map);
+        controlLayers.addOverlay(mcPoints, "MasterCard");
+      });
+
+      var controlLayers = L.control.layers().addTo(map);
+
+    </script>
+  </body>
+</html>
