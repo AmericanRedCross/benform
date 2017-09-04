@@ -1,0 +1,16 @@
+{
+  "name": "benform_isochrones",
+  "version": "0.0.0",
+  "description": "",
+  "main": "run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "flow": "^0.2.3",
+    "moment": "^2.18.1",
+    "request": "^2.81.0"
+  }
+}
